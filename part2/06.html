@@ -15,6 +15,8 @@
                 Style：设置渐变透明的样式，值为0代表统一形状、1代表线形、2代表放射状、3代表长方形。
                 StartX和StartY：代表渐变透明效果的开始X和Y坐标。
                 FinishX和FinishY：代表渐变透明效果结束X和Y 的坐标。
+
+            filter:alpha(opacity=30)是兼容IE的透明度设置方法
        **/
         #imgList li img{float:left;opacity:0.3;cursor:crosshair;filter:alpha(opacity=30);}
         #imgList li.current img{opacity:1;filter:alpha(opacity=100);}
