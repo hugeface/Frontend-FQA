@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>Document</title>
+    <style>
+        *{margin:0;padding:0}
+        html,body{
+            overflow:hidden;
+            height:100%;
+            cursor:move;
+        }
+        .floatage p{
+            color:#368;
+            font-size:14px;
+        }
+
+        .floatage p span{
+            position:relative;
+        }
+    </style>
+</head>
+<body>
+<div class='floatage'>
+    <p>你站在这个繁华的街上，找不到你该去的方向。你站在这繁华的街上，感觉到从来没有的慌张。</p>
+</div>
+<script>
+    /*
+        java javaScript
+        基于原型的动态解释性脚本语言
+            原型 词法作用域 执行上下文 弱类型
+                            call apply bind
+        特效 交互
+        服务端 NODE DB 若驱动 IOT 数据挖掘 数据分析 V8无所不能
+        JavaScript
+        ECMAScript DOM BOM
+
+        需求分析
+            1. 文本初始化
+                 1. 文本切割 split
+                 2. 数组操作 map `` ${}
+                 3. join方法拼接数组渲染DOM
+            2. 获取鼠标运动轨迹
+                 1. 获取event对象 以及client位置属性值
+                 2. 自定义对象存储 鼠标位置
+            3. 动态整理文本队列
+                1.  span节点集合遍历 forEach call
+                2.  存储鼠标位置队列
+            4. 文本队列位移
+                1. 数组反向对应
+                2. 防抖处理
+                3. 长度判断
+            5. 位移停止 归为
+    */
+
+    var oFlotage = document.querySelector('.floatage'); //获取元素
+    var oP = oFlotage.querySelector('p');
+    var aSpan;
+    var spanLength = 0;
+    var params = [];//存储字符
+    var loactions = {
+        x:0,
+        y:0
+    };
+    var pos = [];//鼠标位置结合
+    var index = 0;
+    var timer; //初始化延迟定时器
+
+    //初始化文本队列
+    init();
+
+    function init(){
+        params = oP.innerText.split('');
+        params = params.map(function(item){
+            return `<span>${item}</span>`;
+        });
+        oP.innerHTML = params.join('');
+        //存储所有的span节点对象集合
+        aSpan = oP.children;
+        spanLength = aSpan.length;
+
+    }
+
+
+    //文本位移
+    function displacement(para){
+
+        pos.push(para);
+        if(pos.length>=43){
+            [].forEach.call(aSpan,function(item,idx,arr){
+                item.style.transition = '';
+                item.style.top = pos[spanLength  - idx].y + 'px';
+                item.style.left = pos[spanLength - idx].x + 'px';
+            });
+
+            (pos.length > spanLength)&&(pos.shift());
+        }
+    }
+
+    function stop(){
+        [].forEach.call(aSpan,function(item,idx){
+            item.style.transition = `.3s ${idx*.01}s`;
+            item.style.top = loactions.y + 'px';
+            item.style.left = loactions.x + 'px';
+        });
+        pos = pos.map(function(item){return loactions});
+    }
+    //监听在document文档上发生的鼠标移动事件 事件类型, 事件句柄 , 事件触发顺序
+    document.body.addEventListener('mousemove',function(e){
+        clearTimeout(timer); //清除定时器 上一次的定时器
+        loactions = {
+            x:e.clientX,
+            y:e.clientY
+        };
+        index++;
+        (!!(index%=2))||displacement(loactions);
+        //1秒之后开始执行stop函数
+        timer = setTimeout(function(){
+            stop();
+        },300);
+    },false);
+
+
+
+    //window 属性
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
+<!--
+
+	262
+
+	getElementById
+
+	getElementsByClassName
+
+	getELementsByTagName
+
+
+	H5 DOM 扩展API
+
+	querySelector  单个元素节点对象 获取默认下标第一个的集合元素
+
+	querySelectorAll 元素节点对象集合
+
+
+	1. 使用方法  $ css选择器 好用
+	2. 兼容性 ie8+
+	3. 性能: get > query > $
+	4. 动态or静态: query静态 get动态
+
+	map 数组中每一项都进行某种操作后返回一个新的数组
+
+	`` ${}
+
+	addEventListener 事件监听
+	监听在document文档上发生的鼠标移动事件 事件类型, 事件句柄 , 事件触发顺序 false事件冒泡 true 事件捕获
+
+	number string array json
+
+
+	&&  短路与 如果左边为真返回右边 如果左边为假返回左边
+
+	|| 短路或  反过来
+
+
+
+
+	var arrLoa = [5,4,3,2,1];
+	var arrStr = [a,b,c,d,e];
+				 0 1 2 3 4
+				l-0
+				 5 4 3 2 1
+	arrStr[arrLoa.length - 1 - i]
+
+	 0 1 2
+
+	 0 1 2 3 4 5 6 7
+
+	 1%3=1 2%3=2 3%3=0 4%3=1 5%3=2 6%3=0 7%3 = 1
+
+
+	canvas
+
+	react react Native
+
+
+
+
+
+
+-->
